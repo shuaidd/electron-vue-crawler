@@ -160,9 +160,10 @@ export default class extends Vue {
   choosedPicBedForQRCode: string[] = []
   created () {
     this.os = process.platform
-    this.buildMenu()
-    ipcRenderer.on('getPicBeds', this.getPicBeds)
-    this.handleGetPicPeds()
+    this.buildMenu();
+    this.$router.push({
+      name: 'crawler'
+    })
   }
 
   @Watch('choosedPicBedForQRCode')
@@ -217,28 +218,6 @@ export default class extends Vue {
   buildMenu () {
     const _this = this
     const template = [
-      {
-        label: '关于',
-        click () {
-          dialog.showMessageBox({
-            title: 'PicGo',
-            message: 'PicGo',
-            detail: `Version: ${pkg.version}\nAuthor: Molunerfinn\nGithub: https://github.com/Molunerfinn/PicGo`
-          })
-        }
-      },
-      {
-        label: '赞助PicGo',
-        click () {
-          _this.visible = true
-        }
-      },
-      {
-        label: '生成图床配置二维码',
-        click () {
-          _this.qrcodeVisible = true
-        }
-      },
       {
         label: '隐私协议',
         click () {
