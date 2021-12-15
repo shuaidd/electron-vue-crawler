@@ -93,6 +93,11 @@ export default new Router({
           path: 'shortKey',
           component: () => import(/* webpackChunkName: "ShortkeyPage" */ '@/pages/ShortKey.vue'),
           name: 'shortKey'
+        },
+        {
+          path: 'crawler',
+          component: () => import(/* webpackChunkName: "ShortkeyPage" */ '@/pages/Crawler.vue'),
+          name: 'crawler'
         }
       ]
     },

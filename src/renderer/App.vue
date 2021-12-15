@@ -20,6 +20,7 @@ export default {
   #app
     user-select none
     overflow hidden
+    height 100%
   .el-button-group
     width 100%
     .el-button

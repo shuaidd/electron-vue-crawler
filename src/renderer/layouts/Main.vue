@@ -19,41 +19,9 @@
           :unique-opened="true"
           @open="handleGetPicPeds"
           >
-          <el-menu-item index="upload">
-            <i class="el-icon-upload"></i>
-            <span slot="title">上传区</span>
-          </el-menu-item>
-          <el-menu-item index="gallery">
-            <i class="el-icon-picture"></i>
-            <span slot="title">相册</span>
-          </el-menu-item>
-          <el-submenu
-            index="sub-menu"
-          >
-            <template slot="title">
-              <i class="el-icon-menu"></i>
-              <span>图床设置</span>
-            </template>
-            <template
-              v-for="item in picBed"
-            >
-              <el-menu-item
-                v-if="item.visible"
-                :index="`picbeds-${item.type}`"
-                :key="item.type"
-              >
-                <!-- <i :class="`el-icon-ui-${item.type}`"></i> -->
-                <span slot="title">{{ item.name }}</span>
-              </el-menu-item>
-            </template>
-          </el-submenu>
-          <el-menu-item index="setting">
-            <i class="el-icon-setting"></i>
-            <span slot="title">PicGo设置</span>
-          </el-menu-item>
-          <el-menu-item index="plugin">
+          <el-menu-item index="crawler">
             <i class="el-icon-share"></i>
-            <span slot="title">插件设置</span>
+            <span slot="title">审批流自动化</span>
           </el-menu-item>
         </el-menu>
         <i class="el-icon-info setting-window" @click="openDialog"></i>
@@ -61,7 +29,6 @@
       <el-col
         :span="19"
         :offset="5"
-        style="height: 428px"
         class="main-wrapper"
         :class="{ 'darwin': os === 'darwin' }">
         <transition name="picgo-fade" mode="out-in">
@@ -181,7 +148,7 @@ const customLinkRule = (rule: string, value: string, callback: (arg0?: Error) =>
 })
 export default class extends Vue {
   version = process.env.NODE_ENV === 'production' ? pkg.version : 'Dev'
-  defaultActive = 'upload'
+  defaultActive = 'crawler'
   menu: Electron.Menu | null = null
   visible = false
   keyBindingVisible = false
@@ -327,6 +294,7 @@ $darwinBg = transparentify(#172426, #000, 0.7)
   text-align center
   margin 10px auto
 #main-page
+  height 100%
   .qrcode-dialog
     .qrcode-container
       display flex
@@ -358,6 +326,7 @@ $darwinBg = transparentify(#172426, #000, 0.7)
       )
       .fake-title-bar__title
         padding-left 167px
+        background #6f6f6f
     .handle-bar
       position absolute
       top 2px
@@ -378,6 +347,7 @@ $darwinBg = transparentify(#172426, #000, 0.7)
         &:hover
           color #69C282
   .main-wrapper
+    height 100%
     &.darwin
       background $darwinBg
   .side-bar-menu
@@ -432,6 +402,7 @@ $darwinBg = transparentify(#172426, #000, 0.7)
   .main-content
     padding-top 22px
     position relative
+    height 100%
     z-index 10
   .el-dialog__body
     padding 20px

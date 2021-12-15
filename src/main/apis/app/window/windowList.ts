@@ -19,12 +19,12 @@ windowList.set(IWindowList.TRAY_WINDOW, {
   multiple: false,
   options () {
     return {
-      height: 350,
+      height: 300,
       width: 196, // 196
       show: false,
       frame: false,
-      fullscreenable: false,
-      resizable: false,
+      fullscreenable: true,
+      resizable: true,
       transparent: true,
       vibrancy: 'ultra-dark',
       webPreferences: {
@@ -47,13 +47,13 @@ windowList.set(IWindowList.SETTING_WINDOW, {
   multiple: false,
   options () {
     const options: IBrowserWindowOptions = {
-      height: 450,
-      width: 800,
+      height: 500,
+      width: 750,
       show: false,
       frame: true,
       center: true,
-      fullscreenable: false,
-      resizable: false,
+      fullscreenable: true,
+      resizable: true,
       title: 'PicGo',
       vibrancy: 'ultra-dark',
       transparent: true,
@@ -98,9 +98,9 @@ windowList.set(IWindowList.MINI_WINDOW, {
       width: 64,
       show: process.platform === 'linux',
       frame: false,
-      fullscreenable: false,
+      fullscreenable: true,
       skipTaskbar: true,
-      resizable: false,
+      resizable: true,
       transparent: process.platform !== 'linux',
       icon: `${__static}/logo.png`,
       webPreferences: {
@@ -128,7 +128,7 @@ windowList.set(IWindowList.RENAME_WINDOW, {
       height: 175,
       width: 300,
       show: true,
-      fullscreenable: false,
+      fullscreenable: true,
       resizable: false,
       vibrancy: 'ultra-dark',
       webPreferences: {

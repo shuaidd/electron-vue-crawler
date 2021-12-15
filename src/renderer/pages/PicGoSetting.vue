@@ -360,8 +360,7 @@ const customLinkRule = (rule: string, value: string, callback: (arg0?: Error) =>
 }
 
 @Component({
-  name: 'picgo-setting',
-  components: {TestScala}
+  name: 'picgo-setting'
 })
 export default class extends Vue {
   form: ISettingForm = {
