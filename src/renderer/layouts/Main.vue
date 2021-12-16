@@ -2,7 +2,7 @@
   <div id="main-page">
     <div class="fake-title-bar" :class="{ 'darwin': os === 'darwin' }">
       <div class="fake-title-bar__title">
-        PicGo - {{ version }}
+        新通教育 - {{ version }}
       </div>
       <div class="handle-bar" v-if="os !== 'darwin'">
         <i class="el-icon-minus" @click="minimizeWindow"></i>
@@ -22,6 +22,10 @@
           <el-menu-item index="crawler">
             <i class="el-icon-share"></i>
             <span slot="title">审批流自动化</span>
+          </el-menu-item>
+          <el-menu-item index="help">
+            <i class="el-icon-share"></i>
+            <span slot="title">使用帮助</span>
           </el-menu-item>
         </el-menu>
         <i class="el-icon-info setting-window" @click="openDialog"></i>
@@ -161,18 +165,9 @@ export default class extends Vue {
   created () {
     this.os = process.platform
     this.buildMenu();
-    this.$router.push({
-      name: 'crawler'
-    })
-  }
-
-  @Watch('choosedPicBedForQRCode')
-  choosedPicBedForQRCodeChange (val: string[], oldVal: string[]) {
-    if (val.length > 0) {
-      this.$nextTick(async () => {
-        const picBedConfig = await this.getConfig('picBed')
-        const config = pick(picBedConfig, ...this.choosedPicBedForQRCode)
-        this.picBedConfigString = JSON.stringify(config)
+    if (this.$route.name !== 'crawler') {
+      this.$router.push({
+        name: 'crawler'
       })
     }
   }

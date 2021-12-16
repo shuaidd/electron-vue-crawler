@@ -15,11 +15,6 @@ const config = {
       .set('~', resolve('src'))
       .set('root', resolve('./'))
       .set('#', resolve('src/universal'))
-    // define
-    // config.plugin('define')
-    //   .tap(args => {
-    //     return args
-    //   })
   },
   pluginOptions: {
     electronBuilder: {

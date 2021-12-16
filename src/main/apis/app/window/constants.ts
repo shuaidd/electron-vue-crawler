@@ -12,8 +12,8 @@ export const TRAY_WINDOW_URL = isDevelopment
   : `picgo://./index.html`
 
 export const SETTING_WINDOW_URL = isDevelopment
-  ? `${(process.env.WEBPACK_DEV_SERVER_URL as string)}#main-page/upload`
-  : `picgo://./index.html#main-page/upload`
+  ? `${(process.env.WEBPACK_DEV_SERVER_URL as string)}#main-page`
+  : `picgo://./index.html#main-page`
 
 export const MINI_WINDOW_URL = isDevelopment
   ? `${(process.env.WEBPACK_DEV_SERVER_URL as string)}#mini-page`

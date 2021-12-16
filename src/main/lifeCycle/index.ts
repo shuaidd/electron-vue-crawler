@@ -38,23 +38,6 @@ import picgo from 'apis/core/picgo'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
-const handleStartUpFiles = (argv: string[], cwd: string) => {
-  const files = getUploadFiles(argv, cwd, logger)
-  if (files === null || files.length > 0) { // 如果有文件列表作为参数，说明是命令行启动
-    if (files === null) {
-      logger.info('cli -> uploading file from clipboard')
-      uploadClipboardFiles()
-    } else {
-      logger.info('cli -> uploading files from cli', ...files.map(item => item.path))
-      const win = windowManager.getAvailableWindow()
-      uploadChoosedFiles(win.webContents, files)
-    }
-    return true
-  } else {
-    return false
-  }
-}
-
 class LifeCycle {
   private async beforeReady () {
     protocol.registerSchemesAsPrivileged([{ scheme: 'picgo', privileges: { secure: true, standard: true } }])
@@ -85,16 +68,15 @@ class LifeCycle {
       windowManager.create(IWindowList.TRAY_WINDOW)
       windowManager.create(IWindowList.SETTING_WINDOW)
       createTray()
+      const settingWindow = windowManager.get(IWindowList.SETTING_WINDOW)
+      settingWindow!.show()
+      settingWindow!.focus();
       db.set('needReload', false)
-      updateChecker()
       // 不需要阻塞
       process.nextTick(() => {
         shortKeyHandler.init()
       })
       server.startup()
-      if (process.env.NODE_ENV !== 'development') {
-        handleStartUpFiles(process.argv, process.cwd())
-      }
 
       if (global.notificationList && global.notificationList?.length > 0) {
         while (global.notificationList?.length) {
@@ -113,16 +95,6 @@ class LifeCycle {
   private onRunning () {
     app.on('second-instance', (event, commandLine, workingDirectory) => {
       logger.info('detect second instance')
-      const result = handleStartUpFiles(commandLine, workingDirectory)
-      if (!result) {
-        if (windowManager.has(IWindowList.SETTING_WINDOW)) {
-          const settingWindow = windowManager.get(IWindowList.SETTING_WINDOW)!
-          if (settingWindow.isMinimized()) {
-            settingWindow.restore()
-          }
-          settingWindow.focus()
-        }
-      }
     })
     app.on('activate', () => {
       createProtocol('picgo')

@@ -4,7 +4,6 @@ import {
   Notification,
   ipcMain
 } from 'electron'
-import path from 'path'
 import db, { GalleryDB } from 'apis/core/datastore'
 import { dbPathChecker, defaultConfigPath, getGalleryDBPath } from 'apis/core/datastore/dbChecker'
 import uploader from 'apis/app/uploader'

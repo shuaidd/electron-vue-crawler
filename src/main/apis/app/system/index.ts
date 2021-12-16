@@ -21,24 +21,7 @@ let contextMenu: Menu | null
 let menu: Menu | null
 let tray: Tray | null
 export function createContextMenu () {
-  const picBeds = getPicBeds()
   if (process.platform === 'darwin' || process.platform === 'win32') {
-    const submenu = picBeds.filter(item => item.visible).map(item => {
-      return {
-        label: item.name,
-        type: 'radio',
-        checked: db.get('picBed.current') === item.type,
-        click () {
-          picgo.saveConfig({
-            'picBed.current': item.type,
-            'picBed.uploader': item.type
-          })
-          if (windowManager.has(IWindowList.SETTING_WINDOW)) {
-            windowManager.get(IWindowList.SETTING_WINDOW)!.webContents.send('syncPicBed')
-          }
-        }
-      }
-    })
     contextMenu = Menu.buildFromTemplate([
       {
         label: '关于',
@@ -59,22 +42,6 @@ export function createContextMenu () {
           if (windowManager.has(IWindowList.MINI_WINDOW)) {
             windowManager.get(IWindowList.MINI_WINDOW)!.hide()
           }
-        }
-      },
-      {
-        label: '选择默认图床',
-        type: 'submenu',
-        // @ts-ignore
-        submenu
-      },
-      // @ts-ignore
-      {
-        label: '打开更新助手',
-        type: 'checkbox',
-        checked: db.get('settings.showUpdateTip'),
-        click () {
-          const value = db.get('settings.showUpdateTip')
-          db.set('settings.showUpdateTip', !value)
         }
       },
       {
