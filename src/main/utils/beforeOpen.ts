@@ -5,12 +5,30 @@ import { dbPathChecker } from 'apis/core/datastore/dbChecker'
 
 const configPath = dbPathChecker()
 const CONFIG_DIR = path.dirname(configPath)
+const { app } = require('electron')
 
 function beforeOpen () {
   if (process.platform === 'darwin') {
     resolveMacWorkFlow()
   }
   resolveClipboardImageGenerator()
+  resolveCrawler()
+}
+
+function resolveCrawler () {
+  let userDataPath = app.getPath('userData')
+  console.log('当前运行路径', userDataPath)
+  let dest = userDataPath + '/crawler'
+  if (fs.existsSync(dest)) {
+    return true
+  } else {
+    try {
+      // @ts-ignore
+      fs.copySync(path.join(__static, 'crawler'), dest)
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }
 
 /**

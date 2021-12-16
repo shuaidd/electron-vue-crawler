@@ -14,15 +14,7 @@ webFrame.setVisualZoomLevelLimits(1, 1)
 webFrame.setLayoutZoomLevelLimits(0, 0)
 
 Vue.config.productionTip = false
-Vue.prototype.$builtInPicBed = [
-  'smms',
-  'imgur',
-  'qiniu',
-  'tcyun',
-  'upyun',
-  'aliyun',
-  'github'
-]
+Vue.prototype.$builtInPicBed = []
 Vue.prototype.$$db = db
 Vue.prototype.$http = axios
 Vue.prototype.$bus = bus

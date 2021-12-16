@@ -14,6 +14,5 @@ exports.autoApprove = async function (driver, options) {
   console.log('点击确认')
   // Press the accept button
   await alert.accept()
-  await driver.wait(until.elementLocated(By.css('input[name=btnApply111111111]')), 10000)
   console.log('审批结束')
 }
