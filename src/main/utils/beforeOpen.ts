@@ -19,6 +19,20 @@ function resolveCrawler () {
   let userDataPath = app.getPath('userData')
   console.log('当前运行路径', userDataPath)
   let dest = userDataPath + '/crawler'
+
+  if (process.env.NODE_ENV === 'development') {
+    if (fs.existsSync(dest)) {
+      fs.removeSync(dest);
+    }
+    try {
+      // @ts-ignore
+      fs.copySync(path.join(__static, 'crawler'), dest)
+      console.log("脚本文件已拷贝-开发环境")
+    } catch (e) {
+      console.log(e)
+    }
+    return ;
+  }
   if (fs.existsSync(dest)) {
     return true
   } else {

@@ -4,7 +4,7 @@
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
                     <span>任务栏</span>
-                    <el-button :loading="loading" style="float: right; padding: 3px 0" type="text" @click="start">启动任务
+                    <el-button :loading="loading" style="float: right; padding: 3px 0" type="text" @click="loadJob">启动任务
                     </el-button>
                 </div>
                 <el-form :inline="true">
@@ -25,10 +25,19 @@
                 </div>
                 <el-empty v-else description="暂无任务明细"></el-empty>
                 <el-tabs v-model="activeName" type="card">
-                    <el-tab-pane label="审批意见" name="first">
-
+                    <el-tab-pane label="审批节点" name="first">
+                        <el-card>
+                            <el-form>
+                                <el-form-item label="审批节点：">
+                                    {{job.name}}
+                                </el-form-item>
+                                <el-form-item label="审批人：">
+                                    <span v-if="job.userName">{{job.userName}}（{{job.userAccount}}）</span>
+                                </el-form-item>
+                            </el-form>
+                        </el-card>
                     </el-tab-pane>
-                    <el-tab-pane label="审批节点" name="second">审批节点</el-tab-pane>
+                    <el-tab-pane label="审批意见" name="second">审批节点</el-tab-pane>
                     <el-tab-pane label="审批进度" name="third">审批进度</el-tab-pane>
                 </el-tabs>
             </el-card>
@@ -49,7 +58,13 @@
         code: '无',
         jobUrl: '',
         loginUrl: '',
-        activeName: 'first'
+        activeName: 'first',
+        job: {
+          name: '',
+          userAccount: '',
+          userName: '',
+          password: ''
+        }
       }
     },
     methods: {
@@ -81,7 +96,8 @@
       },
       async start () {
         this.$message.success('开始启动爬虫任务')
-        let cmdStr1 = `node '${remote.app.getPath('userData')}/crawler/localServer.js'`
+        let param = `jobUrl==${this.jobUrl.replace('?','#')} loginUrl==${this.loginUrl} userName==${this.job.userAccount} password==${this.job.password}`
+        let cmdStr1 = `node '${remote.app.getPath('userData')}/crawler/localServer.js' ${param}`
         await this.runExec(cmdStr1)
       },
       async loadJob () {
@@ -91,8 +107,13 @@
           return
         }
         this.$http.get(`${this.loginUrl}/api4otherSys/getCurrentJob.do?jobId=${jobId}`).then(res => {
-          console.log(res)
-          this.msg += JSON.stringify(res.data) + '<br>'
+           this.$message.success('开始启动爬虫任务')
+           let data = res.data.data;
+           this.job.name = data.jobName;
+           this.job.userAccount = data.userAccount;
+           this.job.userName = data.userName;
+           this.job.password = data.password;
+           this.start();
         })
       },
       getQueryString: function (url, name) {
@@ -111,5 +132,9 @@
     .job-msg {
         max-height: 500px;
         overflow-y: scroll;
+    }
+
+    .el-container,.el-card {
+        height: inherit;
     }
 </style>

@@ -24,8 +24,8 @@ const querystring = require("querystring");
 
     await login(driver, {
       url: param.loginUrl,
-      userName: 'ddshuai',
-      password: '1'
+      userName: param.userName,
+      password: param.password
     })
 
     let arg = url.parse(param.jobUrl).query;
@@ -33,7 +33,7 @@ const querystring = require("querystring");
     console.log(params.jobId)
 
     await autoApprove(driver, {
-      url: param.jobUrl
+      url: param.jobUrl.replace('#','?')
     })
   } finally {
     if (driver) {
